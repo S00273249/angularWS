@@ -1,0 +1,11 @@
+@if (car(); as currentCar) {
+  <h2>Car Details</h2>
+
+  <p><strong>Make:</strong> {{ currentCar.make }}</p>
+  <p><strong>Model:</strong> {{ currentCar.model }}</p>
+  <p><strong>Year:</strong> {{ currentCar.year ?? 'Not specified' }}</p>
+} @else if (errorMessage()) {
+  <p>{{ errorMessage() }}</p>
+} @else {
+  <p>Loading car details...</p>
+}
