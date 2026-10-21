@@ -1,16 +1,24 @@
-import { Service, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Car } from '../models/car.model';
 
-@Service()
+@Injectable({
+  providedIn: 'root'
+})
 export class CarService {
-    private http = inject(HttpClient);
+  private http = inject(HttpClient);
 
-    private apiUrl = 'http://localhost:3000/cars'; // this should be read from an env variable we will leave it for now.
+  private apiUrl = 'http://localhost:3000/api/v1/cars';
 
-    getCars(): Observable<Car[]> {
-        return this.http.get<Car[]>(this.apiUrl)
-    }
+  // The backend requires this header.
+  private headers = new HttpHeaders({
+    'x-api-key': 'worksheet-dev-key'
+  });
 
+  getCars(): Observable<Car[]> {
+    return this.http.get<Car[]>(this.apiUrl, {
+      headers: this.headers
+    });
+  }
 }
