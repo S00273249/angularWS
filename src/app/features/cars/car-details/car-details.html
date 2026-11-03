@@ -1,11 +1,17 @@
-@if (car(); as currentCar) {
-  <h2>Car Details</h2>
+<h2>Car Details</h2>
 
-  <p><strong>Make:</strong> {{ currentCar.make }}</p>
-  <p><strong>Model:</strong> {{ currentCar.model }}</p>
-  <p><strong>Year:</strong> {{ currentCar.year ?? 'Not specified' }}</p>
-} @else if (errorMessage()) {
-  <p>{{ errorMessage() }}</p>
-} @else {
+<p>Car Id is {{ id() }}</p>
+
+@let s = state();
+
+@if (s.status === 'loading') {
   <p>Loading car details...</p>
+} @else if (s.status === 'error') {
+  <p>{{ s.message }}</p>
+} @else {
+  <h2>{{ s.data.make }} {{ s.data.model }}</h2>
+
+  @if (s.data.year) {
+    <p>Year: {{ s.data.year }}</p>
+  }
 }
