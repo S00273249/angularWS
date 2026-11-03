@@ -1,14 +1,9 @@
 <h2>Car List</h2>
 
 @if (cars$ | async; as cars) {
-
-<ul>
   @for (car of cars; track car._id) {
-  <li>{{ car.make }} {{ car._id }}</li>
+    <app-car-card [car]="car"></app-car-card>
   }
-</ul>
 } @else {
-Loading cars...
-
+  Loading cars...
 }
-
