@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Car, CreateCarDto } from '../models/car.model';
+import { Car, CreateCarDto, UpdateCarDto } from '../models/car.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +30,18 @@ export class CarService {
 
   addCar(car: CreateCarDto): Observable<Car> {
     return this.http.post<Car>(this.apiUrl, car, {
+      headers: this.headers
+    });
+  }
+
+  updateCar(id: string, changes: UpdateCarDto): Observable<Car> {
+    return this.http.put<Car>(`${this.apiUrl}/${id}`, changes, {
+      headers: this.headers
+    });
+  }
+
+  deleteCar(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
       headers: this.headers
     });
   }

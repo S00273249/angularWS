@@ -16,6 +16,10 @@
 
     @if (carForm.controls.make.hasError('required')) {
       <mat-error>Make is required</mat-error>
+    } @else if (carForm.controls.make.hasError('blank')) {
+      <mat-error>Make cannot be only spaces</mat-error>
+    } @else if (carForm.controls.make.hasError('forbiddenValue')) {
+      <mat-error>Make cannot be "test"</mat-error>
     } @else if (carForm.controls.make.hasError('minlength')) {
       <mat-error>Make must be at least 2 characters</mat-error>
     } @else if (carForm.controls.make.hasError('maxlength')) {
@@ -34,6 +38,8 @@
 
     @if (carForm.controls.model.hasError('required')) {
       <mat-error>Model is required</mat-error>
+    } @else if (carForm.controls.model.hasError('blank')) {
+      <mat-error>Model cannot be only spaces</mat-error>
     } @else if (carForm.controls.model.hasError('maxlength')) {
       <mat-error>Model must be 30 characters or fewer</mat-error>
     }
@@ -68,6 +74,6 @@
       {{ saving() ? 'Saving...' : 'Save car' }}
     </button>
 
-    <a matButton routerLink="/cars">Cancel</a>
+    <a matButton [routerLink]="id() ? ['/cars', id()] : '/cars'">Cancel</a>
   </div>
 </form>
