@@ -1,38 +1,61 @@
 <form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="car-form">
   <h2>Car Details Form</h2>
 
+  @if (saving()) {
+    <mat-progress-bar mode="buffer" />
+  }
+
   <!-- Make Field -->
-  <div class="form-group">
-    <label for="make">Make:</label>
+  <mat-form-field appearance="outline">
+    <mat-label>Make</mat-label>
     <input
-      id="make"
-      type="text"
+      matInput
       formControlName="make"
       placeholder="e.g. Toyota"
     />
-  </div>
+
+    @if (carForm.controls.make.hasError('required')) {
+      <mat-error>Make is required</mat-error>
+    } @else if (carForm.controls.make.hasError('minlength')) {
+      <mat-error>Make must be at least 2 characters</mat-error>
+    } @else if (carForm.controls.make.hasError('maxlength')) {
+      <mat-error>Make must be 30 characters or fewer</mat-error>
+    }
+  </mat-form-field>
 
   <!-- Model Field -->
-  <div class="form-group">
-    <label for="model">Model:</label>
+  <mat-form-field appearance="outline">
+    <mat-label>Model</mat-label>
     <input
-      id="model"
-      type="text"
+      matInput
       formControlName="model"
       placeholder="e.g. Corolla"
     />
-  </div>
+
+    @if (carForm.controls.model.hasError('required')) {
+      <mat-error>Model is required</mat-error>
+    } @else if (carForm.controls.model.hasError('maxlength')) {
+      <mat-error>Model must be 30 characters or fewer</mat-error>
+    }
+  </mat-form-field>
 
   <!-- Year Field -->
-  <div class="form-group">
-    <label for="year">Year:</label>
+  <mat-form-field appearance="outline">
+    <mat-label>Year</mat-label>
     <input
-      id="year"
+      matInput
       type="number"
       formControlName="year"
       placeholder="e.g. 2022"
     />
-  </div>
+    <mat-hint>Optional</mat-hint>
+
+    @if (carForm.controls.year.hasError('min')) {
+      <mat-error>Year must be 1950 or later</mat-error>
+    } @else if (carForm.controls.year.hasError('max')) {
+      <mat-error>Year cannot be later than {{ currentYear + 1 }}</mat-error>
+    }
+  </mat-form-field>
 
   <!-- Display save errors -->
   @if (saveError(); as message) {
@@ -41,10 +64,10 @@
 
   <!-- Action Buttons -->
   <div class="button-group">
-    <button type="submit" [disabled]="saving()">
-      {{ saving() ? 'Saving...' : 'Save Car' }}
+    <button matButton="filled" type="submit" [disabled]="saving()">
+      {{ saving() ? 'Saving...' : 'Save car' }}
     </button>
 
-    <a routerLink="/cars">Cancel</a>
+    <a matButton routerLink="/cars">Cancel</a>
   </div>
 </form>
